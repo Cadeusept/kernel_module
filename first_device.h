@@ -33,12 +33,14 @@ static ssize_t device1_read(struct file *file, char __user *buffer, size_t lengt
     if (*Message1_Ptr == 0)
         return 0;
 
+
     while (length && *Message1_Ptr) {
 
         put_user(*(Message1_Ptr++), buffer++);
         length--;
         bytes_read++;
     }
+
 
     printk("Information was read from the device %s", DEVICE1_NAME);
 

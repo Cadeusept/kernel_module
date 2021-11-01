@@ -33,6 +33,8 @@ static ssize_t device2_read(struct file *file, char __user *buffer, size_t lengt
     if (*Message2_Ptr == 0)
         return 0;
 
+
+
     while (length && *Message2_Ptr) {
 
         put_user(*(Message2_Ptr++), buffer++);
