@@ -1,7 +1,6 @@
 #include "chardev.h"
 
-#include "first_device.h"
-//#include "second_device.h"
+#include "device.h"
 
 
 int init_module()
@@ -20,7 +19,7 @@ int init_module()
         }
         char_dev[i]=MKDEV(ret_val,i);
         
-        printk("Registration is a success. The major and minor %s numbers are %d %d.\n",DEVICE_NAME[i], MAJOR(char_dev[i]), MINOR(char_dev[i])); 
+        printk("Registration is a success. The major and minor %s numbers are %d %d.\n",DEVICE_NAME[i], MAJOR(char_dev[i]), MINOR(char_dev[i]));
     }
 
     return 0;
