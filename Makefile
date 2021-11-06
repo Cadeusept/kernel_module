@@ -19,7 +19,7 @@ full_test:
 	sudo mknod /dev/char_dev1 c 239 0
 	sudo chmod 777 /dev/char_dev1
 	
-	sudo mknod /dev/char_dev2 c 238 0
+	sudo mknod /dev/char_dev2 c 239 1
 	sudo chmod 777 /dev/char_dev2
 
 	echo "ABOBA1" > /dev/char_dev1
