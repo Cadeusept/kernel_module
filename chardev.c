@@ -1,41 +1,35 @@
 #include "chardev.h"
 
-#include "first_device.h"
-#include "second_device.h"
+#include "device.h"
 
 
 int init_module()
 {
     int ret_val;
 
-    ret_val = register_chrdev(0, DEVICE1_NAME, &F1ops);
-
-    if (ret_val < 0) {
-        printk(KERN_ERR "Sorry, registering the character device failed with %d\n", ret_val);
-        return ret_val;
+    int i;
+    for (i=0; i<DEVICES_KOL; ++i) {
+        if (i==0) {
+            ret_val = register_chrdev(0, DEVICE_NAME[i], &Fops);
+            
+            if (ret_val < 0) {
+                printk(KERN_ERR "Sorry, registering the character device failed with %d\n", ret_val);
+                return ret_val;
+            }
+        }
+        char_dev[i]=MKDEV(ret_val,i);
+        
+        printk("Registration is a success. The major and minor %s numbers are %d %d.\n",DEVICE_NAME[i], MAJOR(char_dev[i]), MINOR(char_dev[i]));
     }
-
-    char_dev1=MKDEV(ret_val,0);
-
-    ret_val = register_chrdev(0, DEVICE2_NAME, &F2ops);
-
-    if (ret_val < 0) {
-        printk(KERN_ERR "Sorry, registering the character device failed with %d\n", ret_val);
-        return ret_val;
-    }
-
-    char_dev2=MKDEV(ret_val,0);
-
-    printk("Registration is a success. The major and minor %s numbers are %d %d.\n",DEVICE1_NAME, MAJOR(char_dev1), MINOR(char_dev1));
-    printk("Registration is a success. The major and minor %s numbers are %d %d.\n",DEVICE2_NAME, MAJOR(char_dev2), MINOR(char_dev2));
 
     return 0;
 }
 
 void cleanup_module()
 {
-    unregister_chrdev(MAJOR(char_dev1), DEVICE1_NAME);
-    unregister_chrdev(MAJOR(char_dev2), DEVICE2_NAME);
-    
+    int i;
+    for (i=0; i<DEVICES_KOL; ++i) {
+        unregister_chrdev(MAJOR(char_dev[i]), DEVICE_NAME[i]);
+    }
     printk("Module removed\n");
 }
